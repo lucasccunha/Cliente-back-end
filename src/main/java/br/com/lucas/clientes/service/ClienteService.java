@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClienteService {
@@ -36,4 +37,22 @@ public class ClienteService {
         clienteRepository.deleteById(cnpj);
     }
 
+    public Cliente editar(Cliente cliente) {
+        Optional<Cliente> clienteOptional = clienteRepository.findById(cliente.getCnpj());
+        if (clienteOptional.isPresent()) {
+            return clienteRepository.save(cliente);
+        } else {
+            throw new RuntimeException("Cliente não encontrado");
+        }
+    }
+
+    public Cliente buscarPorRazaoSocial(String razaoSocial) {
+        Optional<Cliente> clienteOptional = clienteRepository.findByRazaoSocial(razaoSocial);
+
+        if (clienteOptional.isPresent()) {
+            return clienteOptional.get();
+        } else {
+            throw new RuntimeException("Cliente não encontrado");
+        }
+    }
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/api/clientes")
 public class ClienteController {
 
@@ -21,11 +22,12 @@ public class ClienteController {
         return clienteService.criar(cliente);
     }
 
-    @GetMapping("/{cnpj}")
+    @GetMapping("/cnpj/{cnpj}")
     @ResponseStatus(HttpStatus.OK)
     public Cliente buscarPorCnpj(@PathVariable String cnpj) {
         return clienteService.buscarClientesPorCnpj(cnpj);
     }
+
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -33,9 +35,21 @@ public class ClienteController {
         return clienteService.listarClientesTodos();
     }
 
-    @DeleteMapping("/{cnpj}")
+    @PutMapping("/editar")
+    @ResponseStatus(HttpStatus.OK)
+    public Cliente editar(@RequestBody Cliente cliente) {
+        return clienteService.editar(cliente);
+    }
+
+    @DeleteMapping("/cnpj/{cnpj}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void excluir(@PathVariable String cnpj) {
         clienteService.excluir(cnpj);
+    }
+
+    @GetMapping("/razaosocial/{razaoSocial}")
+    @ResponseStatus(HttpStatus.OK)
+    public Cliente buscarPorRazaoSocial(@PathVariable String razaoSocial) {
+        return clienteService.buscarPorRazaoSocial(razaoSocial);
     }
 }
