@@ -7,9 +7,14 @@ import br.com.lucas.clientes.service.ClienteService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import br.com.lucas.clientes.repository.ClienteRepository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
@@ -18,6 +23,8 @@ public class ClienteController {
 
     @Autowired
     private ClienteService clienteService;
+    @Autowired
+    private ClienteRepository clienteRepository;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -54,4 +61,19 @@ public class ClienteController {
     public Cliente buscarPorRazaoSocial(@PathVariable String razaoSocial) {
         return clienteService.buscarPorRazaoSocial(razaoSocial);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Cliente cliente) {
+        Optional<Cliente> clienteOptional = clienteRepository.findById(cliente.getCnpj());
+        if (clienteOptional.isPresent() && clienteOptional.get().getSenha().equals(cliente.getSenha())) {
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Login bem-sucedido");
+            return ResponseEntity.ok().body(response);
+        } else {
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "CNPJ ou senha incorretos");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+        }
+    }
 }
+

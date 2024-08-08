@@ -6,6 +6,7 @@ import br.com.lucas.clientes.model.Cliente;
 import br.com.lucas.clientes.repository.ClienteRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,15 +18,19 @@ public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+
     public ClienteExibicaoDto criar(ClienteCadastroDto clienteCadastroDto) {
         Cliente cliente = new Cliente();
         BeanUtils.copyProperties(clienteCadastroDto, cliente);
+        cliente.setSenha(passwordEncoder.encode(cliente.getSenha()));
         return new ClienteExibicaoDto(clienteRepository.save(cliente));
     }
 
     public List<Cliente> listarClientesTodos() {
         return clienteRepository.findAll();
-
     }
 
     public ClienteExibicaoDto buscarClientesPorCnpj(String cnpj) {
@@ -45,6 +50,7 @@ public class ClienteService {
     public Cliente editar(Cliente cliente) {
         Optional<Cliente> clienteOptional = clienteRepository.findById(cliente.getCnpj());
         if (clienteOptional.isPresent()) {
+            cliente.setSenha(passwordEncoder.encode(cliente.getSenha()));
             return clienteRepository.save(cliente);
         } else {
             throw new RuntimeException("Cliente não encontrado");
@@ -60,4 +66,5 @@ public class ClienteService {
             throw new RuntimeException("Cliente não encontrado");
         }
     }
+
 }
