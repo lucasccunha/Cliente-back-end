@@ -14,7 +14,7 @@ public record ClienteCadastroDto(
         String usuario,
 
         @NotBlank(message = "Senha é Obrigatória")
-                @Size(min = 6, max= 10, message = "A senha deve conter entre 6 e 10 caracteres.")
+                @Size(min = 3, max= 15, message = "A senha deve conter entre 3 e 15 caracteres.")
         String senha,
 
         Status status
