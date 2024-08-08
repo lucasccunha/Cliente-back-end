@@ -1,7 +1,10 @@
 package br.com.lucas.clientes.controller;
 
+import br.com.lucas.clientes.dto.ClienteCadastroDto;
+import br.com.lucas.clientes.dto.ClienteExibicaoDto;
 import br.com.lucas.clientes.model.Cliente;
 import br.com.lucas.clientes.service.ClienteService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,16 +21,15 @@ public class ClienteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Cliente salvar(@RequestBody Cliente cliente) {
-        return clienteService.criar(cliente);
+    public ClienteExibicaoDto salvar(@RequestBody @Valid ClienteCadastroDto clientecadastroDto) {
+        return clienteService.criar(clientecadastroDto);
     }
 
     @GetMapping("/cnpj/{cnpj}")
     @ResponseStatus(HttpStatus.OK)
-    public Cliente buscarPorCnpj(@PathVariable String cnpj) {
+    public ClienteExibicaoDto buscarPorCnpj(@PathVariable String cnpj) {
         return clienteService.buscarClientesPorCnpj(cnpj);
     }
-
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)

@@ -68,6 +68,8 @@
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-database-oracle</artifactId>
 		</dependency>
+
+
 	</dependencies>
 
 	<build>
