@@ -9,7 +9,8 @@ Uma API para gerenciar clientes, incluindo cadastro, busca, edição e exclusão
 - Maven
 - Hibernate
 - JPA
-
+- Oracle
+  
 ## Arquitetura
 
 Este projeto utiliza a arquitetura MVC 
