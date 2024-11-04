@@ -10,6 +10,12 @@ Uma API para gerenciar clientes, incluindo cadastro, busca, edição e exclusão
 - Hibernate
 - JPA
 
+## Como Executar
+
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/lucasccunha/Cliente-back-end.git
+
 
 
 
